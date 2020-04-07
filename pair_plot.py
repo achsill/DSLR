@@ -15,4 +15,4 @@ fig, ax = plt.subplots()
 colors = np.random.rand(1600)
 
 sns.pairplot(df, hue="Hogwarts House", palette=bar_color)
-plt.savefig("scatter_plot.png", dpi=300, format='png', bbox_inches='tight')
+plt.savefig("pair_plot.png", dpi=300, format='png', bbox_inches='tight')
