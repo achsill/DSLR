@@ -1,14 +1,9 @@
 import numpy as np
 from sklearn.metrics import accuracy_score
 import pandas as pd
-from logreg_train import fill_missing_astronomy_values, read_csv, import_dataframe
+from logreg_train import fill_missing_astronomy_values, read_csv, import_dataframe, gradient_descent
 import csv
-
-
-
-from sklearn.linear_model import LogisticRegression
-from sklearn import metrics
-
+from sklearn.model_selection import train_test_split
 
 def sigmoid(x):
     return 1 / (1 + np.exp(-x))
@@ -38,19 +33,15 @@ def print_accuracy(x, y, W):
 
 def main():
     df = read_csv()
-    x, y = import_dataframe(df)
 
-    logreg = LogisticRegression(solver='lbfgs', multi_class='auto')
-    logreg.fit(x, y)
+    train, test = train_test_split(df, test_size=0.2)
+    x, y = import_dataframe(test)
 
-    x = x
-    y = y
+    results_done = gradient_descent(train)
+    # W = np.load("train_result.npy")
+    prediction_result = print_accuracy(x, y, results_done)
 
-    y_pred = logreg.predict(x)
-    print("le leurs ", accuracy_score(y_pred, y))
 
-    W = np.load("train_result.npy")
-    prediction_result = print_accuracy(x, y, W)
 
     with open('houses.csv', mode='w') as csv_file:
         fieldnames = ['Index', 'House']
