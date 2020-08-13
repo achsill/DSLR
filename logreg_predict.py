@@ -3,7 +3,6 @@ from sklearn.metrics import accuracy_score
 import pandas as pd
 from logreg_train import fill_missing_astronomy_values, read_csv, import_dataframe, gradient_descent
 import csv
-from sklearn.model_selection import train_test_split
 
 def sigmoid(x):
     return 1 / (1 + np.exp(-x))

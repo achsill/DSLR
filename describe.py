@@ -21,7 +21,7 @@ def mean(list):
     for elem in list:
         if isNaN(elem) == 0:
             result = result + elem
-    return round((result / length(list)), 5)
+    return round((result / length(list)), 6)
 
 def std(list):
     result = 0
@@ -38,7 +38,7 @@ def min_value(list):
         if isNaN(elem) == 0:
             if result == None or elem < result:
                 result = elem
-    return round(result, 5)
+    return round(result, 6)
 
 def max_value(list):
     result = None
@@ -46,7 +46,7 @@ def max_value(list):
         if isNaN(elem) == 0:
             if result == None or elem > result:
                 result = elem
-    return round(result, 5)
+    return round(result, 6)
 
 def compute_quartile(list, quartile):
     list_size = length(list)
@@ -117,8 +117,6 @@ def main():
 
     for row in result:
         print(find_longest_element_length(result, header_length + 1).format(*row))
-    print('------------------')
-    print(df.describe())
 
 if __name__ == "__main__":
     main()

@@ -41,7 +41,7 @@ def import_dataframe(df):
     # df = df.dropna()
     df = df.fillna(df.mean())
     y = df[["Hogwarts House"]]
-    X = df[["Herbology", "Astronomy", "Ancient Runes", "Charms", "Flying", "Transfiguration"]]
+    X = df[["Herbology", "Astronomy", "Ancient Runes", "Charms"]]
     X = ((X-X.min())/(X.max()-X.min()))
     X = X.to_numpy()
     return X, y
@@ -80,7 +80,7 @@ def gradient_descent(dataframe):
     for house in houses:
         y_train = change_string_to_number(list(y.iloc[:, 0]), house)
         y_train = y_train.reshape(-1, 1)
-        W = np.zeros((6, 1))
+        W = np.zeros((4, 1))
         b = 0
         tmp_cost = 0
         tmp = []

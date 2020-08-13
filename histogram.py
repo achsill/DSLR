@@ -51,4 +51,3 @@ howgwarts_lessons=((howgwarts_lessons-howgwarts_lessons.min())/(howgwarts_lesson
 
 draw_histograms(howgwarts_lessons, axs)
 print_histograms(axs)
-# print(howgwarts_lessons.columns.get_loc(howgwarts_lessons.std().idxmin()))
