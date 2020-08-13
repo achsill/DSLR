@@ -21,32 +21,21 @@ def get_multi(x, theta_list):
                 else:
                     predict+= theta[key]
             tmp.append(predict)
-            # tmp.append(sigmoid(theta[6] + elem[0] * theta[0] + elem[1] * theta[1] + elem[2] * theta[2] + elem[3] * theta[3]  + elem[4] * theta[4] + elem[5] * theta[5]))
         maison = tmp.index(max(tmp))
         result.append(houses[maison])
     return result
 
 def print_accuracy(x, y, W):
-    enfin = get_multi(x, W)
-    print(accuracy_score(y, enfin))
-    return enfin
+    return get_multi(x, W)
 
 def main():
     df = read_csv()
-
-    train, test = train_test_split(df, test_size=0.2)
-    x, y = import_dataframe(test)
-
-    results_done = gradient_descent(train)
-    # W = np.load("train_result.npy")
-    prediction_result = print_accuracy(x, y, results_done)
-
-
+    x, y = import_dataframe(df)
+    prediction_result = print_accuracy(x, y, np.load("train_result.npy"))
 
     with open('houses.csv', mode='w') as csv_file:
-        fieldnames = ['Index', 'House']
         writer = csv.writer(csv_file)
-        writer.writerow(["Index", "House"])
+        writer.writerow(["Index", "Hogwarts House"])
         for index, house in enumerate(prediction_result):
             writer.writerow([index, house])
 

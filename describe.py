@@ -1,6 +1,9 @@
 import pandas as pd
 import math
 import numpy as np
+import os.path
+from os import path
+import sys
 
 
 def isNaN(num):
@@ -26,7 +29,8 @@ def std(list):
     for elem in list:
         if isNaN(elem) == 0:
             result = result + abs(elem - mean_value)**2
-    return round(math.sqrt(result / length(list)), 5)
+    lengthlol = length(list) - 1
+    return round(math.sqrt(result / lengthlol), 6)
 
 def min_value(list):
     result = None
@@ -52,7 +56,7 @@ def compute_quartile(list, quartile):
     x_int = int(x)
 
     result = list.at[x_int - 1] + (x - x_int) * (list.at[x_int] - list.at[x_int - 1])
-    return round(result, 5)
+    return round(result, 6)
 
 def find_longest_element_length(list, header_length):
     list_size = len(list)
@@ -74,55 +78,47 @@ def find_longest_element_length(list, header_length):
         longest_element_length = 0
     return format_string
 
-df = pd.read_csv('ressources/dataset_train.csv')
-df = df.select_dtypes('number')
+def main():
+    if len(sys.argv) < 2:
+        print('This program needs a dataset')
+        exit(0)
+    if path.exists(sys.argv[1]) == False:
+        print('This file doesn\'t exist')
+        exit(0)
+    df = pd.read_csv(sys.argv[1])
+    df = df.select_dtypes('number')
 
-count_list = []
-mean_list = []
-std_list = []
-min_list = []
-max_list = []
-first_quartile_list = []
-second_quartile_list = []
-third_quartile_list = []
-header = list(df.columns)
-header_length = len(header)
-i = 0
+    count_list = ["count"]
+    mean_list = ["mean"]
+    std_list = ["std"]
+    min_list = ["min"]
+    max_list = ["max"]
+    first_quartile_list = ["25%"]
+    second_quartile_list = ["50%"]
+    third_quartile_list = ["75%"]
+    result = []
+    header = list(df.columns)
+    header_length = len(header)
+    i = 0
 
+    while i < header_length:
+        count_list.append(length(df.iloc[:, i]))
+        mean_list.append(mean(df.iloc[:, i]))
+        std_list.append(std(df.iloc[:, i]))
+        min_list.append(min_value(df.iloc[:, i]))
+        max_list.append(max_value(df.iloc[:, i]))
+        first_quartile_list.append(compute_quartile(df.iloc[:, i].sort_values(), 25))
+        second_quartile_list.append(compute_quartile(df.iloc[:, i].sort_values(), 50))
+        third_quartile_list.append(compute_quartile(df.iloc[:, i].sort_values(), 75))
+        i += 1
 
-while i < header_length:
-    count_list.append(length(df.iloc[:, i]))
-    mean_list.append(mean(df.iloc[:, i]))
-    std_list.append(std(df.iloc[:, i]))
-    min_list.append(min_value(df.iloc[:, i]))
-    max_list.append(max_value(df.iloc[:, i]))
-    first_quartile_list.append(compute_quartile(df.iloc[:, i].sort_values(), 25))
-    second_quartile_list.append(compute_quartile(df.iloc[:, i].sort_values(), 50))
-    third_quartile_list.append(compute_quartile(df.iloc[:, i].sort_values(), 75))
-    i += 1
+    header.insert(0, "")
+    result.extend((header, count_list, mean_list, std_list, min_list, first_quartile_list, second_quartile_list, third_quartile_list, max_list))
 
+    for row in result:
+        print(find_longest_element_length(result, header_length + 1).format(*row))
+    print('------------------')
+    print(df.describe())
 
-header.insert(0, "")
-count_list.insert(0, "count")
-mean_list.insert(0, "mean")
-std_list.insert(0, "std")
-min_list.insert(0, "min")
-max_list.insert(0, "max")
-first_quartile_list.insert(0, "25%")
-second_quartile_list.insert(0, "50%")
-third_quartile_list.insert(0, "75%")
-
-result = []
-result.append(header)
-result.append(count_list)
-result.append(mean_list)
-result.append(std_list)
-result.append(min_list)
-result.append(first_quartile_list)
-result.append(second_quartile_list)
-result.append(third_quartile_list)
-result.append(max_list)
-
-
-for row in result:
-    print(find_longest_element_length(result, header_length).format(*row))
+if __name__ == "__main__":
+    main()

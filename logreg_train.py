@@ -94,17 +94,14 @@ def gradient_descent(dataframe):
 
             db = 1/m * sum((S - y_train))
             for key, weight in enumerate(W):
-                W[key] = W[key] - learning_rate * (1/m * sum(np.matmul(x_train.T[key], S - y_train)))
-            b = b - learning_rate * db
+                W[key] -= learning_rate * (1/m * sum(np.matmul(x_train.T[key], S - y_train)))
+            b -= learning_rate * db
             tmp_cost = cost
-
         for e in W:
             tmp.append(e[0])
         tmp.append(b)
         results_done.append(tmp)
     return results_done
-        # icila = predict(sigmoid(( b + x_test.T[0] * W[0] + x_test.T[1] * W[1] + x_test.T[2] * W[2] + x_test.T[3] * W[3]  + x_test.T[4] * W[4])))
-        # print(house + ": " + str(accuracy_score(y_test, icila)))
 
 def main():
     df = read_csv()

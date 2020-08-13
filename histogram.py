@@ -5,11 +5,8 @@ import numpy as np
 def print_histograms(axs):
     axs[0, 0].patch.set_edgecolor('#2ecc71')
     axs[0, 0].patch.set_linewidth('3')
-
-    figure = plt.gcf()
-    figure.set_size_inches(19, 18)
     plt.legend(bbox_to_anchor=(1, 1))
-    plt.savefig("histogram.png", dpi=300, format='png', bbox_inches='tight')
+    plt.show()
 
 def draw_histograms(howgwarts_lessons, axs):
     bar_color = ["#c0392b", "#f1c40f", "#2980b9", "#27ae60"]
@@ -40,11 +37,14 @@ hogwarts_houses = list(set(df["Hogwarts House"]))
 hogwarts_houses.sort()
 
 # Create plot
+plt.rcParams["figure.figsize"] = [14,8]
 fig, axs = plt.subplots(5, 3)
 fig.delaxes(axs[4,2])
 fig.delaxes(axs[3,2])
 axs[4, 1].set_xlabel("Grade")
 axs[4, 1].set_ylabel("Number of students")
+plt.tight_layout()
+plt.subplots_adjust(top=0.92)
 
 howgwarts_lessons = df.select_dtypes('number')
 howgwarts_lessons=((howgwarts_lessons-howgwarts_lessons.min())/(howgwarts_lessons.max()-howgwarts_lessons.min()))*100
