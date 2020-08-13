@@ -11,7 +11,7 @@ bar_color = {"Ravenclaw": "#2980b9",
             "Gryffindor": "#c0392b",
             "Hufflepuff": "#f1c40f"}
 
-sns.pairplot(df, hue="Hogwarts House", markers = ".")
+sns.pairplot(df, hue="Hogwarts House", markers = ".", palette=bar_color)
 plt.tight_layout()
 plt.savefig("pair_plot.png", format='png')
 
